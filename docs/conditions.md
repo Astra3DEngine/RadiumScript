@@ -1,0 +1,73 @@
+# 分支与循环
+
+***
+
+> 最有用的语句，毕竟谁不喜欢if else嵌套呢?
+
+## 分支语句
+
+> 我们需要做判断，电脑也一样。
+
+- `if (<condition>) {code}` 如果`<condition>`那么`{code}`
+- `if (<condition>) {code} else {code}` 如果`<condition>`那么`{code}`反之执行下面的语句
+- `<condition>?<value1>:<value2>` 三元运算符，如果`<condition>`成立，则返回`<value1>`，反之返回`<value2>`
+- SWITCH 语句:执行`<index>`等于`<item>`(任意右值)后续的代码块，并且后续必须是代码块，不允许空值的存在
+
+这会将`<index>`本身与`<item>`比较，当两者严格相等的时候，就会跳转执行，具体语法如下：
+
+```cpp
+switch (<index>) {
+    case <item1>:{code1}
+    case <item2>:{code2}
+    ...
+    case <item n>:{code n}
+    default : {code}
+}
+```
+
+执行完一个代码块会直接跳出整个 switch，但是如果你想要执行的时候把分支之后的内容全部都执行，那你需要再代码块结尾加上一个关键字`fallthrough;`，它将让程序继续执行 switch 里的东西，直到出去！
+
+> 你不应该让两个`case`的条件一样！
+
+这是一个示例：
+
+```cpp
+var abc = input();
+switch (abc) {
+    case 1 : {
+        print("hello world!");
+    }
+    case 2 : {
+        print("HELLO WORLD!");
+        fallthrough;
+    }
+    default : {
+        print("Haha! Caps Lock!");
+    }
+}
+```
+
+这段代码如果用户输入`1`，那么它将输出`hello world!`，如果用户输入`2`，那么它将输出`HELLO WORLD!` `换行` `Haha! Caps Lock!`，如果用户输入其他内容，那么它将输出`Haha! Caps Lock!`。
+
+## 循环语句
+
+> 人类的本质是复读姬!
+
+- `while (<condition>) {code}` 重复执行直到`<condition>`不成立
+- `do {code} while (<condition>);` 先执行一次之后判断成立
+- `break;` 跳出最近一层 while / do while / switch
+- `continue;` 回到最近的循环的开头进行下一次迭代
+
+比如我可以编写下列代码：
+
+```cpp
+var x = 0;
+
+while (x<5) {
+    var a = x;
+    print(a);
+    x++;
+}
+```
+
+它将会执行五次输出，输出的是`0` `1` `2` `3` `4`。
