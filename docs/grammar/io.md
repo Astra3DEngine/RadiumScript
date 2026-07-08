@@ -34,7 +34,7 @@
 比如，你可以使用`printf("Nyan~","%n")`，将字符串`Nyan~`转换为连接的 Unicode 码后打印，这里应该输出的是`7812197110126`。哦，我知道这样根本分不清谁是谁，没关系，我也分不清。
 
 有意思的是，如果你运行下面的内容：
-```cpp
+```javascript
 import math;
 var pi = math.pi;
 printf(pi,"%b5");

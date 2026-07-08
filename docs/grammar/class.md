@@ -20,7 +20,7 @@
 
 给出例子：
 
-```cpp
+```javascript
 class test {
     private:
         var awa = NULL; // 空变量
@@ -44,13 +44,13 @@ class test {
 
 如果需要创建一个对象，只需要：
 
-```cpp
+```javascript
 var abcd = test(); // 调用构造函数
 ```
 
 调用成员更是简单：
 
-```cpp
+```javascript
 abc.test(1);
 abc.test2();
 ```

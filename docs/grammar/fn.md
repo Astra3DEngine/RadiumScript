@@ -16,7 +16,7 @@
 
 函数的参数可以是多个，比如`def <func> (<value1>,<value2>) {code}`。值得一提的是，你可以如此编写函数：
 
-```cpp
+```javascript
 def test(var a = 1,var b = 2,var c = [1,2,3]) {
     // 代码内容
 }
@@ -33,7 +33,7 @@ def test(var a = 1,var b = 2,var c = [1,2,3]) {
 
 如果你创建了两个名称一样的函数，但是函数传入的参数数目或者类型不同，那么它们将作为独立的函数存在，互不干扰。比如：
 
-```cpp
+```javascript
 def test(var a = 1) {
     // 代码内容
 }
@@ -56,7 +56,7 @@ def test(var a = 2,var b = 2) {
 
 返回值`return`指的是一个块在执行之后返回的结果，这里我们通常认为每一个代码块都可以拥有一个`return`来返回值或者停止运行(跳出代码块)。因为在本语言中，函数创建类似于一个定义或替换的过程：
 
-```cpp
+```javascript
 def test(var a) {
     print(a,"\t");
     return;
@@ -65,7 +65,7 @@ def test(var a) {
 
 在这个函数定义中，我们类似为后面的代码块`{print(a,"\t");return;}`设置了一个别名`test(a)`。所以实际上，我们在调用函数的时候，我们只是在复制一份代码块过来。所以普通的代码块也可以拥有返回值，就像下面那样：
 
-```cpp
+```javascript
 var a = input("Type a number: ");
 var b = {print("Let me thinking...");return 5**a;};
 print("The 5 ^ " + a + "is" + b);

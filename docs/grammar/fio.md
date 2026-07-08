@@ -17,7 +17,7 @@
 
 如果你导入了代码库比如`sys`，那么它里面的函数方法将有属于它们的名称空间`sys`，比如你可以调用`sys.time()`来获取当前时间。如果你不喜欢`sys`这个名称空间，你可以为它设置一个**别名**比如`s`，方法只需要在导入的时候添加内容：
 
-```cpp
+```javascript
 import sys as s;
 ```
 
@@ -31,7 +31,7 @@ import sys as s;
 
 比如我定义了一个`awa.rdl`并做出如下定义：
 
-```cpp
+```javascript
 import sys;
 
 class timer {
@@ -59,7 +59,7 @@ export nowtime;
 
 然后，我现在在主函数文件`main.rds`中如是写到：
 
-```cpp
+```javascript
 import awa; // 导入 awa.rdl 文件
 
 def main() {

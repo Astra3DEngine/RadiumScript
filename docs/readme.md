@@ -1,26 +1,30 @@
 # <font color="66ccff">RadiumScript</font>
-<small>注:以下内容为 **RadiumScript** 第三版内容</small>
+<small>注:以下内容为 **RadiumScript** 第四版内容</small>
 
 ***
 
 ## 简介
-**RadiumScript** 是一个还需完善的解释性语言。
 
-RadiumScript 支持 **局部变量**，**指针变量**，**复合结构**(比如结构体)，**面向对象编程** 等高级语言功能，通过编写 RS 代码并将其在解释器中运行，你可以为 RadiumOS 编写软件等。而且，RS 语法，虚拟机等都是开源的。
+**RadiumScript** 是一个还需完善的解释性语言，曾经被设计为 RadiumOS <sup>R-E</sup> 的系统语言，用内置库编写软件；现在它作为 Astra 3D Engine 的脚本系统被重新使用。
+
+RadiumScript 支持 **局部变量**，**指针变量**，**复合结构**，**面向对象编程** 等高级语言功能。而且，RS 语法，虚拟机等都是开源的。
 
 ## 关于语法
-RS 的语法借鉴了 C++ 、JavaScript 和 Python，所以我几乎可以用 C++ 的上色模式来上色 RS (当然，仅仅是我不喜欢 Python 而已)：
 
-```cpp
+> 下列有关 S++ 的内容现已作废，该自制语言已经停止维护并拥有了新的替代品。
+
+RS 的语法借鉴了 C++ 、JavaScript，它通常是严格的。在这里我使用 JavaScript 的上色模式来上色 RS ：
+
+```javascript
 import math;
 var a;
 a = input("Type a number:");
 print(sin(a));
 ```
 
-假如用户输入30，上述的代码就将在控制台输出`0.5`。在 RadiumScript ，你几乎可以像用 Scratch 一样写代码，就像某 SQY 制作的 S++ 一样。但是在下面的代码中，输出却既然不同。首先是 S++ 的代码：
+假如用户输入30，上述的代码就将在控制台输出`0.5`。在 RadiumScript ，你几乎可以像用 Scratch 一样写代码，就像某 SQY 制作的 S++ 一样。但是在下面的代码中，输出却完全不同。首先是 S++ 的代码：
 
-```Python
+```py
 a=114
 print(a)
     a=514
@@ -38,7 +42,7 @@ print(a)
 ```
 然后是 RadiumScript ：
 
-```cpp
+```javascript
 {
     var a = 114;
     print(a);
@@ -72,7 +76,7 @@ RadiumScript 的标准代码文件为`.rds`，而标准库文件为`.rdl`。
 
 需要一个入口文件，这个文件通常是`main.rds`；该文件中需要一个主函数，通常是`main()`。你大可以像这样编写代码：
 
-```cpp
+```javascript
 import xxx;
 
 def abc(var a) {
@@ -88,7 +92,7 @@ main();
 
 是的，一个函数在调用之前需要被定义。如果你不想把主函数的定义写在最后面，你可以先定义元数据，然后再定义函数，就像：
 
-```cpp
+```javascript
 import xxx;
 
 def abc(var a);

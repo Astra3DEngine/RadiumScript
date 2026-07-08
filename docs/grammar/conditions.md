@@ -15,7 +15,7 @@
 
 这会将`<index>`本身与`<item>`比较，当两者严格相等的时候，就会跳转执行，具体语法如下：
 
-```cpp
+```javascript
 switch (<index>) {
     case <item1>:{code1}
     case <item2>:{code2}
@@ -25,21 +25,21 @@ switch (<index>) {
 }
 ```
 
-执行完一个代码块会直接跳出整个 switch，但是如果你想要执行的时候把分支之后的内容全部都执行，那你需要再代码块结尾加上一个关键字`fallthrough;`，它将让程序继续执行 switch 里的东西，直到出去！
+执行完一个代码块会继续执行后续 switch 里的东西，直到出去！如果你想要执行的时候跳出去，那你需要再代码块结尾加上一个关键字`break`。
 
 > 你不应该让两个`case`的条件一样！
 
 这是一个示例：
 
-```cpp
+```javascript
 var abc = input();
 switch (abc) {
     case 1 : {
         print("hello world!");
+        break;
     }
     case 2 : {
         print("HELLO WORLD!");
-        fallthrough;
     }
     default : {
         print("Haha! Caps Lock!");
@@ -55,12 +55,12 @@ switch (abc) {
 
 - `while (<condition>) {code}` 重复执行直到`<condition>`不成立
 - `do {code} while (<condition>);` 先执行一次之后判断成立
-- `break;` 跳出最近一层 while / do while / switch
-- `continue;` 回到最近的循环的开头进行下一次迭代
+- `break;` 跳出当前的域
+- `continue;` 回到当前域的开头进行下一次迭代
 
 比如我可以编写下列代码：
 
-```cpp
+```javascript
 var x = 0;
 
 while (x<5) {
