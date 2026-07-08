@@ -30,7 +30,7 @@ class test {
             this.qwq = [""]; // 初始化列表
         }
 
-        def test(var a) {
+        def test(a) {
             this.awa = a;
         }
 

@@ -64,14 +64,14 @@ namespace <name> {<definition>}
 
 ```js
 namespace awa {
-    def amns(var a) {
+    def amns(a) {
         print(a);
         return a;
     }
 }
 
 namespace qwq {
-    def amns(var a) {
+    def amns(a) {
         print(a + "is" + a);
     }
 }
@@ -87,7 +87,7 @@ qwq::amns(awa::amns(114));
 
 也就是说，你创建的每一个函数，创建的每一个判断语句，创建的每一个循环甚至是你创建的每一个类，都是一个局部域。
 
-在局部域中，存在各种有意思的内容，比如我在`分支`就提到了你可以使用`break`退出这个域或者使用`continue`回到域的开头继续执行代码，也许这可以作为一个新的循环写法？~~(虽然这很不合适就是了)~~
+在局部域中，存在各种有意思的内容，比如我在[分支](./conditions)就提到了你可以使用`break`退出这个域，也许这可以作为一个新的循环写法？~~(虽然这很不合适就是了)~~
 
 ## 生命周期和作用域
 
