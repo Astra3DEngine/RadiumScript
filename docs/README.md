@@ -79,7 +79,7 @@ RadiumScript 的标准代码文件为`.rds`，而标准库文件为`.rdl`。
 ```javascript
 import xxx;
 
-def abc(var a) {
+def abc(a) {
     // 其他函数定义
 }
 
@@ -95,17 +95,19 @@ main();
 ```javascript
 import xxx;
 
-def abc(var a);
+def abc(a);
 
 def main() {
     // 主函数定义
 }
 
-def abc(var a) {
+def abc(a) {
     // 其他函数定义
 }
 
 main();
 ```
+
+你被允许使用`//`编写注释，其后的所有内容都被忽略。
 
 这就是基础结构，更多内容在其他文件进行描述。
