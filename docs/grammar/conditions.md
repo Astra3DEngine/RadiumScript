@@ -56,7 +56,11 @@ switch (abc) {
 - `while (<condition>) {code}` 重复执行直到`<condition>`不成立
 - `do {code} while (<condition>);` 先执行一次之后判断成立
 - `break;` 跳出当前最近的代码块
+- `break <label>;` 跳出标记的代码块
+- `break if (<conditional>);` 如果`<conditional>`成立则跳出最近的代码块
 - `continue;` 回到当前循环的开头进行下一次迭代(只能用于循环语句)
+- `continue <label>;` 进入标记的循环的下一次迭代
+- `continue if (<conditional>);` 如果`<conditional>`成立则进入最近循环的下一次迭代
 
 比如我可以编写下列代码：
 
@@ -80,6 +84,19 @@ while (x <= 5) {
     {
         print(x);
         break;
+    }
+    // 其他内容
+}
+```
+
+但是，如果你想要跳出循环，你只需要做出这样的更改：
+
+```javascript
+loop: while (x <= 5) {
+    x++;
+    {
+        print(x);
+        break loop;
     }
     // 其他内容
 }

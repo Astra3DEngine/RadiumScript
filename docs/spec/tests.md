@@ -240,3 +240,98 @@ int
 ```
 
 如果 `sys.time()` 的实现返回浮点时间戳，则最后一行可调整为 `float`，但解释器和 JS 编译结果必须一致。
+
+## 带标签的 break 退出循环
+
+```javascript
+var x = 0;
+loop: while (x < 10) {
+    x++;
+    if (x == 3) {
+        break loop;
+    }
+    print(x);
+}
+print("end");
+```
+
+期望输出：
+
+```text
+1
+2
+end
+```
+
+## break if 退出循环
+
+```javascript
+var x = 0;
+while (x < 10) {
+    x++;
+    break if (x == 3);
+    print(x);
+}
+print("end");
+```
+
+期望输出：
+
+```text
+1
+2
+end
+```
+
+## 嵌套循环 break 外层
+
+```javascript
+var i = 0;
+outer: while (i < 3) {
+    var j = 0;
+    while (j < 3) {
+        if (i == 1 && j == 1) {
+            break outer;
+        }
+        print(i * 10 + j);
+        j++;
+    }
+    i++;
+}
+print("end");
+```
+
+期望输出：
+
+```text
+0
+1
+2
+10
+end
+```
+
+## continue 标签跳到外层循环
+
+```javascript
+var i = 0;
+outer: while (i < 3) {
+    i++;
+    var j = 0;
+    while (j < 3) {
+        j++;
+        if (j == 2) {
+            continue outer;
+        }
+        print(i * 10 + j);
+    }
+}
+```
+
+期望输出：
+
+```text
+11
+21
+31
+```

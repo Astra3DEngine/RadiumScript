@@ -6,8 +6,8 @@
 
 ## 基本原则
 
-- 用户语法不暴露 JavaScript 标签。
-- 编译器可以为普通代码块自动生成内部标签。
+- 用户书写的标签直接映射为 JavaScript 标签（建议加前缀避免冲突，例如 `loop` 编译为 `__rs_loop`）。
+- 没有用户标签的普通代码块，由编译器自动生成内部标签。
 - 运行时值、类型转换和控制流行为必须和解释器一致。
 - 生成的 JavaScript 不需要保持源码外观，只需要保持行为一致。
 
@@ -85,6 +85,60 @@ while (rs_truthy(x < 5)) {
 ```
 
 如果 `continue` 出现在没有外层循环的位置，编译阶段应报错。
+
+## 标签和条件形式的 break/continue
+
+用户标签直接编译为 JavaScript 标签（建议加前缀避免冲突，如 `loop` 编译为 `__rs_loop`），带标签的 `break`/`continue` 指向对应标签。
+
+RadiumScript：
+
+```javascript
+loop: while (x < 10) {
+    x++;
+    if (x == 5) {
+        break loop;
+    }
+    print(x);
+}
+```
+
+JavaScript：
+
+```javascript
+__rs_loop: while (rs_truthy(x < 10)) {
+    x++;
+    if (rs_truthy(rs_eq(x, 5))) {
+        break __rs_loop;
+    }
+    print(x);
+}
+```
+
+条件形式 `break if (<expression>);` 编译为把当前上下文里的普通 `break` 放进 `if` 中：`break if (c);` → `if (c) <break>;`，其中 `<break>` 是普通 `break;` 在该位置的编译结果。因此写在循环体当前层级的 `break if (c)` 会编译成 `if (c) break;`，直接退出循环：
+
+RadiumScript：
+
+```javascript
+while (x < 10) {
+    x++;
+    break if (x == 5);
+    print(x);
+}
+```
+
+JavaScript：
+
+```javascript
+while (rs_truthy(x < 10)) {
+    x++;
+    if (rs_truthy(rs_eq(x, 5))) {
+        break;
+    }
+    print(x);
+}
+```
+
+组合形式 `break <label> if (<expression>);` 编译为 `if (c) break __rs_<label>;`。`continue <label>` 和 `continue if` 的编译方式与 `break` 对应，`continue` 使用 JavaScript `continue`，带标签时指向对应循环的 JavaScript 标签。
 
 ## return 和块表达式
 

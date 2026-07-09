@@ -9,8 +9,10 @@
 RadiumScript 的控制流可以看作三种信号：
 
 - `return` 信号，携带一个返回值。
-- `break` 信号，表示退出最近的代码块。
-- `continue` 信号，表示进入最近循环的下一次迭代。
+- `break` 信号，表示退出某个代码块。
+- `continue` 信号，表示进入某个循环的下一次迭代。
+
+`break` 和 `continue` 可以不带标签，也可以带标签。不带标签时分别作用于最近的代码块和最近的循环；带标签时，信号向外传播，跳过中间不匹配的结构，直到命中带有该标签的结构。
 
 普通执行没有信号。代码块、函数、循环和 `switch` 根据规则消费这些信号。
 
@@ -39,22 +41,7 @@ var b = {print("calc"); return 5;};
 
 ## break
 
-`break;` 退出当前最近的代码块。函数体、循环体、`if` 主体、`switch` 中的 `case` 块、普通 `{...}` 块都属于代码块。
-
-```javascript
-while (x <= 5) {
-    x++;
-    {
-        print(x);
-        break;
-    }
-    print("after inner block");
-}
-```
-
-上面的 `break` 只退出内部普通代码块，不退出 `while`。因此 `print("after inner block")` 仍会执行。
-
-如果要退出循环，可以把 `break` 直接写在循环体当前层级：
+`break;` 退出当前最近的代码块。函数体、循环体、`if` 主体、`switch` 中的 `case` 块、普通 `{...}` 块都属于代码块。把 `break` 直接写在循环体当前层级会退出循环。
 
 ```javascript
 while (x <= 5) {
@@ -64,23 +51,119 @@ while (x <= 5) {
 }
 ```
 
-由于 `break` 总是退出最近代码块，RadiumScript 不提供用户可见的代码块标签。编译到 JavaScript 时，编译器可以自动为代码块生成内部标签。
-
-## continue
-
-`continue;` 只能用于循环语句。它跳过当前循环剩余代码，进入下一轮迭代判断。
+`break` 只退出最近代码块，因此当它出现在更内层的块里时不会退出循环。普通内层块如此，`if` 主体也是如此：
 
 ```javascript
-while (x < 5) {
+while (x < 10) {
     x++;
-    if (x == 3) {
-        continue;
+    {
+        print(x);
+        break;          // 只退出内层普通块
+    }
+    print("after");
+}
+
+while (x < 10) {
+    x++;
+    if (x == 5) {
+        break;          // 只退出 if 块，循环继续
     }
     print(x);
 }
 ```
 
-`continue` 不能用于普通代码块、`switch`、函数体、类主体或名称空间主体，除非它们位于循环内部并且目标是最近的循环。
+要在特定条件下退出循环，RadiumScript 提供两种写法：带标签的 `break` 和条件形式的 `break if`。
+
+### 带标签的 break
+
+在 `while`、`do-while`、`switch` 或普通代码块前加上 `label:` 即可给它打标签，然后用 `break <label>;` 退出带有该标签的结构。带标签的信号会向外传播，跳过中间的 `if` 块和普通块，直到命中同名标签。
+
+```javascript
+loop: while (x < 10) {
+    x++;
+    if (x == 5) {
+        break loop;     // 跳过 if 块，退出 while
+    }
+    print(x);
+}
+```
+
+标签打在外层循环上可以一次退出多层嵌套：
+
+```javascript
+outer: while (i < n) {
+    while (j < m) {
+        if (done) {
+            break outer;
+        }
+    }
+}
+```
+
+标签也可以打在普通代码块上：
+
+```javascript
+search: {
+    if (found) {
+        break search;
+    }
+    // 其他内容
+}
+```
+
+`break <label>;` 引用的标签必须在当前作用域内可见，否则为编译期错误。标签的作用域是它所修饰的结构体内部；同名标签嵌套时以最近的一层为准。
+
+### 条件 break
+
+`break if (<expression>);` 是简写：当 `<expression>` 为真时发出一个普通 `break` 信号，目标仍是当前最近的代码块。
+
+```javascript
+while (x < 10) {
+    x++;
+    break if (x == 5);
+    print(x);
+}
+```
+
+它和 `if (<expression>) { break; }` 的关键区别在于：`break if` 是单条语句，不会新建 `if` 块，因此 `break` 信号的目标是外层（这里是循环体）而不是一个新的 `if` 块。所以 `break if` 写在循环体当前层级时能退出循环；若把它嵌进更深的块里，它的目标就变成那个块，此时应改用带标签的 `break`。
+
+带标签与条件形式可以组合：`break <label> if (<expression>);` 表示当条件成立时退出带有 `<label>` 的结构。
+
+`switch` 对 `break` 的特例（在 `case` 或 `default` 顶层直接使用时结束整个 `switch`）保持不变；带标签的 `break` 也可以直接指向被标签修饰的 `switch`。编译到 JavaScript 时，用户书写的标签直接映射为对应的 JavaScript 标签，没有用户标签的普通代码块由编译器自动生成内部标签。
+
+## continue
+
+`continue;` 跳过当前循环剩余代码，进入最近循环的下一轮迭代判断。`continue` 只能用于循环；它不会被普通代码块、`if`、`switch`、函数体、类主体或名称空间主体消费，会直接向外传播到最近的循环。
+
+```javascript
+while (x < 5) {
+    x++;
+    if (x == 3) {
+        continue;       // 跳过 if 块，作用于 while
+    }
+    print(x);
+}
+```
+
+`continue <label>;` 进入带有该标签的循环的下一轮迭代，用于在嵌套循环中继续外层循环：
+
+```javascript
+outer: while (i < 3) {
+    i++;
+    var j = 0;
+    while (j < 3) {
+        j++;
+        if (j == 2) {
+            continue outer;
+        }
+        print(i * 10 + j);
+    }
+}
+```
+
+`continue if (<expression>);` 是简写：条件为真时发出普通 `continue` 信号。由于普通 `continue` 本就能穿过 `if` 块，`continue if` 只是 `if (<expression>) { continue; }` 的语法糖。组合形式 `continue <label> if (<expression>);` 同样允许。
+
+如果 `continue` 找不到外层循环，应报错。
 
 ## switch
 
@@ -124,7 +207,9 @@ switch (abc) {
 | 信号 | 消费者 |
 | --- | --- |
 | `return` | 最近的函数或块表达式 |
-| `break` | 最近的代码块 |
-| `continue` | 最近的循环 |
+| `break`（无标签） | 最近的代码块 |
+| `break <label>` | 带有 `<label>` 的结构（`while`、`do-while`、`switch` 或普通代码块） |
+| `continue`（无标签） | 最近的循环 |
+| `continue <label>` | 带有 `<label>` 的循环 |
 
-如果 `continue` 找不到外层循环，应报错。
+不带标签的信号会被路过的第一个可消费结构截获；带标签的信号会跳过不匹配的结构，直到命中同名标签。`break <label>` 引用不到的标签、`continue` 找不到外层循环时，均应报错。

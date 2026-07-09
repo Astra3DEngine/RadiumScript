@@ -51,7 +51,8 @@ statement       = block
                 | doWhileStatement
                 | returnStatement
                 | breakStatement
-                | continueStatement ;
+                | continueStatement
+                | labeledStatement ;
 
 block           = "{" , { statement | functionDecl | classDecl | namespaceDecl } , "}" ;
 varDecl         = "var" , identifier , [ "=" , expression ] , ";" ;
@@ -125,12 +126,14 @@ whileStatement  = "while" , "(" , expression , ")" , block ;
 doWhileStatement
                 = "do" , block , "while" , "(" , expression , ")" , ";" ;
 
-breakStatement  = "break" , ";" ;
+breakStatement  = "break" , [ identifier ] , [ "if" , "(" , expression , ")" ] , ";" ;
 continueStatement
-                = "continue" , ";" ;
+                = "continue" , [ identifier ] , [ "if" , "(" , expression , ")" ] , ";" ;
+labeledStatement
+                = identifier , ":" , ( whileStatement | doWhileStatement | switchStatement | block ) ;
 ```
 
-`break` 和 `continue` 的具体执行规则见[控制流规范](spec/control-flow.md)。
+`break` 和 `continue` 后跟标识符表示带标签形式，跟 `if (...)` 表示条件形式，两者可组合；由于标识符不能是关键字，`break if` 与 `break <label>` 不会冲突。标签只能修饰 `while`、`do-while`、`switch` 或普通代码块；语句开头的 `identifier ":"` 只能是标签。具体执行规则见[控制流规范](spec/control-flow.md)。
 
 ## 类和名称空间
 
