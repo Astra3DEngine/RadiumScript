@@ -1,5 +1,6 @@
 * 介绍
     * [简介]()
+    * [执行政策](excute)
 * 语法
     * [数据](grammar/var)
     * [输入输出](grammar/io)

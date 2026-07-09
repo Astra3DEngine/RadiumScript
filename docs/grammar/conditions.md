@@ -10,6 +10,7 @@
 
 - `if (<condition>) {code}` 如果`<condition>`那么`{code}`
 - `if (<condition>) {code} else {code}` 如果`<condition>`那么`{code}`反之执行下面的语句
+- `if (<condition>) {code} else if (<condition2>) {code} ... else {code}` 多分支链，`else if` 是 `else { if (...) {...} }` 的扁平写法，可以在减少代码的情况下完成多个分支
 - `<condition>?<value1>:<value2>` 三元运算符，如果`<condition>`成立，则返回`<value1>`，反之返回`<value2>`
 - SWITCH 语句:执行`<index>`等于`<item>`(任意右值)后续的代码块，并且后续必须是代码块，不允许空值的存在
 

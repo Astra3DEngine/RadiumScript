@@ -335,3 +335,33 @@ outer: while (i < 3) {
 21
 31
 ```
+
+## 多分支 else if 链
+
+```javascript
+def grade(s) {
+    if (s >= 90) {
+        return "A";
+    } else if (s >= 80) {
+        return "B";
+    } else if (s >= 60) {
+        return "C";
+    } else {
+        return "D";
+    }
+}
+
+print(grade(95));
+print(grade(85));
+print(grade(70));
+print(grade(50));
+```
+
+期望输出：
+
+```text
+A
+B
+C
+D
+```

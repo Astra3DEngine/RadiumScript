@@ -116,7 +116,7 @@ returnStatement = "return" , [ expression ] , ";" ;
 ## 分支和循环
 
 ```ebnf
-ifStatement     = "if" , "(" , expression , ")" , block , [ "else" , block ] ;
+ifStatement     = "if" , "(" , expression , ")" , block , [ "else" , ( block | ifStatement ) ] ;
 
 switchStatement = "switch" , "(" , expression , ")" , "{" , { caseClause } , [ defaultClause ] , "}" ;
 caseClause      = "case" , expression , ":" , block ;
