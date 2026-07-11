@@ -1,0 +1,16 @@
+{
+  "name": "radiumscript",
+  "version": "0.1.0",
+  "description": "A RadiumScript (RS) interpreter, importable as a Node.js package.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./lib/*": "./lib/*"
+  },
+  "scripts": {
+    "test": "node test/run-tests.js"
+  },
+  "keywords": ["radiumscript", "interpreter", "rs", "language"],
+  "license": "MIT"
+}

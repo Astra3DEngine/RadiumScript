@@ -1,0 +1,26 @@
+{
+  "name": "radiumscript-playground",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "radiumscript": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.36.0",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/commands": "^6.7.0",
+    "@codemirror/autocomplete": "^6.18.0",
+    "@codemirror/theme-one-dark": "^6.1.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.10"
+  }
+}
